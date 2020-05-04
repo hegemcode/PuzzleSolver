@@ -18,7 +18,7 @@
 <pre>
 <code>
 md out
-javac src\main.java -d out -sourcepath
+javac src\main.java -d out -sourcepath src
 java -cp out main
 </code>
 </pre>
