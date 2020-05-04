@@ -41,6 +41,18 @@ public class Node {
         this.hijos.add(n);
     }
 
+    public boolean compareMatrix(Board t, Board t2){
+        boolean aux = true;
+        for(int i = 0; i < t.getSize(); i++){
+            for(int j = 0; j < t.getSize();j++){
+                if(t.getMatriz()[i][j] != t2.getMatriz()[i][j]){
+                    aux = false;
+                }
+            }
+        }
+        return aux;
+    }
+
     public int getH() {
         return h;
     }

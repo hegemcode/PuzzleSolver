@@ -35,22 +35,22 @@ public class Algorithm_2 {
     }
 
     // Expande el arbol de decisiones
-    public void expandir( Node estadoActual) throws Exception {
+    public void expandir(Node estadoActual) throws Exception {
         generarHijos(estadoActual); // Genera hijos del estado actual
         Node siguiente = this.estadoActual;
         setMovimientos(estadoActual.getValor().getMov());
 
-        if(estadoActual.getValor().contarPosiciones() != 14) { //Comprobamos que no hayamos completado el puzzle
-            if(continuar(estadoActual,siguiente)){ //Si hay algun estado mejor que el actual expandimos
+        if (estadoActual.getValor().contarPosiciones() != 14) { //Comprobamos que no hayamos completado el puzzle
+            if (continuar(estadoActual, siguiente)) { //Si hay algun estado mejor que el actual expandimos
                 expandir(siguiente);
             } else {
-                System.out.println("No se han encontrado un mejor estado. ESTADO ACTUAL: \n");
+                System.out.println("A better state was no found. CURRENT STATE: \n");
                 estadoActual.getValor().mostrarMatriz();
-                System.out.println("NODOS EXPLORADOS: " + num_nodos);
+                System.out.println("Explored Nodes: " + num_nodos);
             }
-        }else{ //En caso de haber hallado una solucion , se muestran los movimientos realizados y el tablero resultante
+        } else { //En caso de haber hallado una solucion , se muestran los movimientos realizados y el tablero resultante
 
-            System.out.println("TABLERO FINAL: ");
+            System.out.println("Final Board: ");
             estadoActual.getValor().mostrarMatriz();
             printMovimientos();
         }
@@ -62,28 +62,28 @@ public class Algorithm_2 {
         boolean fin = false;
 
         Board arriba = new Board();
-        copiarMatriz(this.estadoActual.getValor(),arriba);
+        copiarMatriz(this.estadoActual.getValor(), arriba);
 
         Board abajo = new Board();
-        copiarMatriz(this.estadoActual.getValor(),abajo);
+        copiarMatriz(this.estadoActual.getValor(), abajo);
 
         Board derecha = new Board();
-        copiarMatriz(this.estadoActual.getValor(),derecha);
+        copiarMatriz(this.estadoActual.getValor(), derecha);
 
         Board izquierda = new Board();
-        copiarMatriz(this.estadoActual.getValor(),izquierda);
+        copiarMatriz(this.estadoActual.getValor(), izquierda);
 
 
-        while(!fin && generados.size()!=4) {
+        while (!fin && generados.size() != 4) {
             int caso = rand.nextInt(4);
             switch (caso) {
                 case 0: {
-                    if(!buscarLista(generados,caso)) {
-                        if(arriba.moverArriba(fila, col)) {
-                            arriba.setMov(arriba.getMatriz()[fila][col]+"S");
+                    if (!buscarLista(generados, caso)) {
+                        if (arriba.moverArriba(fila, col)) {
+                            arriba.setMov(arriba.getMatriz()[fila][col] + "S");
                             estadoActual.setHijos(arriba);
-                            num_nodos ++;
-                            if(arriba.contarPosiciones() > this.estadoActual.getValor().contarPosiciones()) {
+                            num_nodos++;
+                            if (arriba.contarPosiciones() > this.estadoActual.getValor().contarPosiciones()) {
                                 this.estadoActual = new Node(arriba);
 
                                 return true;
@@ -91,13 +91,14 @@ public class Algorithm_2 {
                         }
                         generados.add(caso);
                     }
-                } break;
-                case 1:{
-                    if(!buscarLista(generados,caso)) {
-                        if(abajo.moverAbajo(fila,col)) {
-                            abajo.setMov(abajo.getMatriz()[fila][col]+"N");
+                }
+                break;
+                case 1: {
+                    if (!buscarLista(generados, caso)) {
+                        if (abajo.moverAbajo(fila, col)) {
+                            abajo.setMov(abajo.getMatriz()[fila][col] + "N");
                             estadoActual.setHijos(abajo);
-                            num_nodos ++;
+                            num_nodos++;
                             if (abajo.contarPosiciones() > this.estadoActual.getValor().contarPosiciones()) {
                                 this.estadoActual = new Node(abajo);
 
@@ -106,13 +107,14 @@ public class Algorithm_2 {
                         }
                         generados.add(caso);
                     }
-                } break;
-                case 2:{
-                    if(!buscarLista(generados,caso)) {
-                        if(derecha.moverDer(fila,col)) {
-                            derecha.setMov(derecha.getMatriz()[fila][col]+"O");
+                }
+                break;
+                case 2: {
+                    if (!buscarLista(generados, caso)) {
+                        if (derecha.moverDer(fila, col)) {
+                            derecha.setMov(derecha.getMatriz()[fila][col] + "O");
                             estadoActual.setHijos(derecha);
-                            num_nodos ++;
+                            num_nodos++;
                             if (derecha.contarPosiciones() > this.estadoActual.getValor().contarPosiciones()) {
                                 this.estadoActual = new Node(derecha);
 
@@ -121,13 +123,14 @@ public class Algorithm_2 {
                         }
                         generados.add(caso);
                     }
-                } break;
-                case 3:{
-                    if(!buscarLista(generados,caso)) {
-                        if(izquierda.moverIzq(fila,col)) {
-                            izquierda.setMov(izquierda.getMatriz()[fila][col]+"E");
+                }
+                break;
+                case 3: {
+                    if (!buscarLista(generados, caso)) {
+                        if (izquierda.moverIzq(fila, col)) {
+                            izquierda.setMov(izquierda.getMatriz()[fila][col] + "E");
                             estadoActual.setHijos(izquierda);
-                            num_nodos ++;
+                            num_nodos++;
                             if (izquierda.contarPosiciones() > this.estadoActual.getValor().contarPosiciones()) {
                                 this.estadoActual = new Node(izquierda);
 
@@ -146,8 +149,8 @@ public class Algorithm_2 {
     //Comprueba si un entero pertence a la lista
     boolean buscarLista(LinkedList<Integer> l, int caso) {
         boolean enc = false;
-        for(int i = 0; i < l.size(); i++) {
-            if(l.get(i) == caso) {
+        for (int i = 0; i < l.size(); i++) {
+            if (l.get(i) == caso) {
                 return true;
             }
         }
@@ -164,20 +167,21 @@ public class Algorithm_2 {
         estadoActual.getValor().calcularZeros();
         int[] aux = estadoActual.getValor().getCoord();
 
-        while(!fin && generados.size()!=2) {
+        while (!fin && generados.size() != 2) {
             int caso = rand.nextInt(2);
             //Aleatoriamente expandimos primero por uno de los dos '0'
             switch (caso) {
                 case 0: {
-                    if(!buscarLista(generados,caso)) {
+                    if (!buscarLista(generados, caso)) {
                         if (generarMovimientos(estadoActual, aux[0], aux[1])) {
                             fin = true;
                         }
                         generados.add(caso);
                     }
-                } break;
+                }
+                break;
                 case 1: {
-                    if(!buscarLista(generados,caso)) {
+                    if (!buscarLista(generados, caso)) {
                         if (generarMovimientos(estadoActual, aux[2], aux[3])) {
                             fin = true;
                         }
@@ -190,12 +194,12 @@ public class Algorithm_2 {
 
     // Imprime la solución
     public void printMovimientos() {
-        String sol = "SOLUCION:";
-        for(int i = 0; i < this.movimientos.size(); i++){
+        String sol = "Solution:";
+        for (int i = 0; i < this.movimientos.size(); i++) {
             sol = sol + " " + this.movimientos.get(i);
         }
         System.out.println(sol);
-        System.out.println("NODOS EXPLORADOS: " + num_nodos);
+        System.out.println("Explored nodes: " + num_nodos);
     }
 
     public void setMovimientos(String mov) {
@@ -203,14 +207,13 @@ public class Algorithm_2 {
     }
 
     // Comprieba si el estado actual es mejor que el siguiente para continuar o no
-    public boolean continuar(Node estadoActual, Node siguiente){
-        if(estadoActual.getH() < siguiente.getH()){
+    public boolean continuar(Node estadoActual, Node siguiente) {
+        if (estadoActual.getH() < siguiente.getH()) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }
-
 
 
 }
